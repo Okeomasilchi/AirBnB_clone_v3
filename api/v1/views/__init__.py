@@ -26,7 +26,6 @@ CORS(place_views)
 CORS(review_views)
 CORS(amenity_place_views)
 
-# Import all views in the package (wildcard import)
 from api.v1.views.amenities import *
 from api.v1.views.cities import *
 from api.v1.views.index import *
