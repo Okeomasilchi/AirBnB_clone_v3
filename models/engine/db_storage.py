@@ -19,6 +19,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
+
 class DBStorage:
     """interacts with the MySQL database"""
     __engine = None
