@@ -15,6 +15,7 @@ The console is the first segment of the AirBnB project at Holberton School that 
 * [Usage](#usage)
 * [Examples of use](#examples-of-use)
 * [Bugs](#bugs)
+* [Api](#api)
 * [Authors](#authors)
 * [License](#license)
 
@@ -153,11 +154,196 @@ EOF  all  create  destroy  help  quit  show  update
 ## Bugs
 No known bugs at this time. 
 
+## Api
+The project structure is organized as follows:
+
+    api: Contains the API implementation with versioned views.
+        v1: Version 1 of the API.
+            app.py: Flask application setup and configuration.
+            views: Module containing different views for objects like States, Cities, etc.
+            states.py: View for State objects.
+            cities.py: View for City objects.
+            amenities.py: View for Amenity objects.
+            users.py: View for User objects.
+    models: Contains the data models for the application.
+
+### API Status
+
+The API status endpoint returns a JSON response indicating the status of the API.
+
+Example
+```bash
+curl -X GET http://0.0.0.0:5000/api/v1/status
+```
+output
+```json
+{
+  "status": "OK"
+}
+```
+
+### Statistics Endpoint
+The statistics endpoint provides the number of objects for each type.
+
+Example
+```bash
+GET http://0.0.0.0:5000/api/v1/stats
+```
+
+```json
+{
+  "states": 5,
+  "cities": 20,
+  "amenities": 10,
+  "users": 15
+}
+```
+
+### Not Found Handling
+When a resource is not found, the API returns a JSON-formatted 404 status code response.
+
+**Example**:
+```bash
+Copy code
+GET http://0.0.0.0:5000/api/v1/nop
+```
+```json
+{
+  "error": "Not found"
+}
+```
+
+### State Endpoint
+The State endpoint handles all default RESTful API actions for State objects.
+
+
+```bash
+# Retrieve all states
+curl -X GET http://0.0.0.0:5000/api/v1/states
+
+# Retrieve a specific state
+curl -X GET http://0.0.0.0:5000/api/v1/states/<state_id>
+
+# Delete a state
+curl -X DELETE http://0.0.0.0:5000/api/v1/states/<state_id>
+
+# Create a new state
+curl -X POST -H "Content-Type: application/json" -d '{"name": "New York"}' http://0.0.0.0:5000/api/v1/states
+
+# Update a state
+curl -X PUT -H "Content-Type: application/json" -d '{"name": "Updated State"}' http://0.0.0.0:5000/api/v1/states/<state_id>
+```
+
+Expected JSON Response
+```json
+{
+  "id": "<state_id>",
+  "created_at": "2022-01-07T12:34:56.789",
+  "updated_at": "2022-01-07T12:34:56.789",
+  "name": "New York"
+}
+```
+
+### City Endpoint
+The City endpoint handles all default RESTful API actions for City objects.
+
+Examples
+
+```bash
+# Retrieve all cities of a state
+curl -X GET http://0.0.0.0:5000/api/v1/states/1/cities
+
+# Retrieve a specific city
+curl -X GET http://0.0.0.0:5000/api/v1/cities/<city_id>
+
+# Delete a city
+curl -X DELETE http://0.0.0.0:5000/api/v1/cities/<city_id>
+
+# Create a new city
+curl -X POST -H "Content-Type: application/json" -d '{"name": "New City"}' http://0.0.0.0:5000/api/v1/states/<state_id>/cities
+
+# Update a city
+curl -X PUT -H "Content-Type: application/json" -d '{"name": "Updated City"}' http://0.0.0.0:5000/api/v1/cities/<city_id>
+```
+
+Expected JSON Response
+
+```json
+Copy code
+{
+  "id": "<city_id>",
+  "created_at": "2022-01-07T12:34:56.789",
+  "updated_at": "2022-01-07T12:34:56.789",
+  "name": "New City",
+  "state_id": "<state_id>"
+}
+```
+### Amenity Endpoint
+The Amenity endpoint handles all default RESTful API actions for Amenity objects.
+
+```bash
+# Retrieve all amenities
+curl -X GET http://0.0.0.0:5000/api/v1/amenities
+
+# Retrieve a specific amenity
+curl -X GET http://0.0.0.0:5000/api/v1/amenities/<amenity_id>
+
+# Delete an amenity
+curl -X DELETE http://0.0.0.0:5000/api/v1/amenities/<amenity_id>
+
+# Create a new amenity
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Swimming Pool"}' http://0.0.0.0:5000/api/v1/amenities
+
+# Update an amenity
+curl -X PUT -H "Content-Type: application/json" -d '{"name": "Updated Amenity"}' http://0.0.0.0:5000/api/v1/amenities/<amenity_id>
+```
+Expected JSON Response
+```json
+Copy code
+{
+  "id": "<amenity_id>",
+  "created_at": "2022-01-07T12:34:56.789",
+  "updated_at": "2022-01-07T12:34:56.789",
+  "name": "Swimming Pool"
+}
+```
+### User Endpoint
+The User endpoint handles all default RESTful API actions for User objects.
+
+Examples
+```bash
+# Retrieve all users
+curl -X GET http://0.0.0.0:5000/api/v1/users
+
+# Retrieve a specific user
+curl -X GET http://0.0.0.0:5000/api/v1/users/<user_id>
+
+# Delete a user
+curl -X DELETE http://0.0.0.0:5000/api/v1/users/<user_id>
+
+# Create a new user
+curl -X POST -H "Content-Type: application/json" -d '{"username": "new_user"}' http://0.0.0.0:5000/api/v1/users
+
+# Update a user
+curl -X PUT -H "Content-Type: application/json" -d '{"username": "updated_user"}' http://0.0.0.0:5000/api/v1/users/<user_id>
+```
+Expected JSON Response
+```json
+Copy code
+{
+  "id": "<user_id>",
+  "created_at": "2022-01-07T12:34:56.789",
+  "updated_at": "2022-01-07T12:34:56.789",
+  "username": "new_user"
+}
+```
+
 ## Authors
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
-Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
-Okeomasilachi Onyedibia- [Github](https://github.com/okeomasilchi) / [Twitter](https://twitter.com/okeomasilachi1)
-Khadijat Rasaq - [Github](https://github.com/KayDjay)
+Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)   
+Khadijat Rasaq - [Github](https://github.com/KayDjay)   
+Okeomasilachi Onyedibia- [Github](https://github.com/okeomasilchi) / [Twitter](https://twitter.com/okeomasilachi1)   
+
 
 Second part of Airbnb: Joann Vuong
 ## License
