@@ -1,11 +1,4 @@
 {
-    "Amenity.0d375b05-5ef9-4d43-aaca-436762bb25bf": {
-        "updated_at": "2017-03-25T02:17:06.000000",
-        "name": "Lockbox",
-        "id": "0d375b05-5ef9-4d43-aaca-436762bb25bf",
-        "created_at": "2017-03-25T02:17:06.000000",
-        "__class__": "Amenity"
-    },
     "Amenity.12e9ccb4-03e4-4f82-ac3d-4fc7e3ebfbfe": {
         "updated_at": "2017-03-25T02:17:06.000000",
         "name": "Internet",
