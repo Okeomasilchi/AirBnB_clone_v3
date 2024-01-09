@@ -1,12 +1,12 @@
-#!.venv/bin/python3
-""" Test .get() and .count() methods
+#!/usr/bin/python3
+"""Testing documentation of a module
 """
-from models import storage
-from models.state import State
+from importlib import import_module
+import sys
 
-print("All objects: {}".format(storage.count()))
-print("State objects: {}".format(storage.count(State)))
+m_imported = import_module(sys.argv[1])
 
-first_state_id = list(storage.all(State).values())[0].id
-print(first_state_id)
-print("First state: {}".format(storage.get(State, first_state_id)))
+if m_imported.__doc__ is None:
+    print("No module documentation", end="")
+else:
+    print("OK", end="")
