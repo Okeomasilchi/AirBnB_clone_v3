@@ -20,6 +20,8 @@ def get_city_by_state(state_id):
     Retrieves a list of cities based on a given state ID.
     """
     state = storage.get(State, state_id)
+    if not state:
+        abort(404)
     return js([city.to_dict() for city in state.cities])
 
 
