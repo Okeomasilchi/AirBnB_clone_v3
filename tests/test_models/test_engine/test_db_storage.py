@@ -86,3 +86,138 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+
+class TestDBStorage(unittest.TestCase):
+    """Test the DBStorage class"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def setUp(self):
+        """Set up the test environment"""
+        self.db_storage = DBStorage()
+        self.db_storage.reload()
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def tearDown(self):
+        """Clean up the test environment"""
+        self.db_storage.close()
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_all(self):
+        """Test the all method"""
+        # Add test objects to the database
+        obj1 = State(name="California")
+        obj2 = City(name="San Francisco", state_id=obj1.id)
+        self.db_storage.new(obj1)
+        self.db_storage.new(obj2)
+        self.db_storage.save()
+
+        # Retrieve all objects
+        all_objs = self.db_storage.all()
+
+        # Check if the objects are retrieved correctly
+        self.assertIn("State.{}".format(obj1.id), all_objs)
+        self.assertIn("City.{}".format(obj2.id), all_objs)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_new(self):
+        """Test the new method"""
+        # Create a new object
+        obj = State(name="New York")
+
+        # Add the object to the database
+        self.db_storage.new(obj)
+        self.db_storage.save()
+
+        # Retrieve the object from the database
+        retrieved_obj = self.db_storage.get(State, obj.id)
+
+        # Check if the object is retrieved correctly
+        self.assertEqual(retrieved_obj, obj)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_save(self):
+        """Test the save method"""
+        # Create a new object
+        obj = State(name="Texas")
+
+        # Add the object to the database
+        self.db_storage.new(obj)
+
+        # Save the changes
+        self.db_storage.save()
+
+        # Retrieve the object from the database
+        retrieved_obj = self.db_storage.get(State, obj.id)
+
+        # Check if the object is retrieved correctly
+        self.assertEqual(retrieved_obj, obj)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_delete(self):
+        """Test the delete method"""
+        # Create a new object
+        obj = State(name="Florida")
+
+        # Add the object to the database
+        self.db_storage.new(obj)
+        self.db_storage.save()
+
+        # Delete the object from the database
+        self.db_storage.delete(obj)
+        self.db_storage.save()
+
+        # Retrieve the object from the database
+        retrieved_obj = self.db_storage.get(State, obj.id)
+
+        # Check if the object is deleted
+        self.assertIsNone(retrieved_obj)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test the get method"""
+        # Create a new object
+        obj = State(name="Arizona")
+
+        # Add the object to the database
+        self.db_storage.new(obj)
+        self.db_storage.save()
+
+        # Retrieve the object using the get method
+        retrieved_obj = self.db_storage.get(State, obj.id)
+
+        # Check if the object is retrieved correctly
+        self.assertEqual(retrieved_obj, obj)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """Test the count method"""
+        # Create multiple objects
+        obj1 = State(name="Washington")
+        obj2 = State(name="Oregon")
+        obj3 = City(name="Seattle", state_id=obj1.id)
+
+        # Add the objects to the database
+        self.db_storage.new(obj1)
+        self.db_storage.new(obj2)
+        self.db_storage.new(obj3)
+        self.db_storage.save()
+
+        # Count the number of objects
+        count_all = self.db_storage.count()
+        count_state = self.db_storage.count(State)
+        count_city = self.db_storage.count(City)
+
+        # Check if the counts are correct
+        self.assertEqual(
+            count_all,
+            len(self.db_storage.all())
+            )
+        self.assertEqual(
+            count_state,
+            len(self.db_storage.all(State))
+            )
+        self.assertEqual(
+            count_city,
+            len(self.db_storage.all(City))
+            )
