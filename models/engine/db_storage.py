@@ -90,8 +90,9 @@ class DBStorage:
           returned.
         """
         instances = self.all(cls)
-        instance = instances.get(f"{cls.__name__}.{id}")
-        return instance
+        ins = instances.pop("{}.{}".
+                            format(cls.__name__, id), None)
+        return ins
 
     def count(self, cls=None):
         """

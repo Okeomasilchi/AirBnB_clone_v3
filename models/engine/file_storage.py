@@ -83,9 +83,10 @@ class FileStorage:
           returned.
         """
         instances = self.all(cls)
-        instance = instances.get("{}.{}".
-                                 format(cls.__name__, id))
-        return instance
+        i = instances.pop("{}.{}".
+                          format(cls.__name__, id), None)
+
+        return i
 
     def count(self, cls=None):
         """
